@@ -1,0 +1,7 @@
+{
+  "packages": [
+    "packages/react-components/*",
+    "packages/react-hooks/*"
+  ],
+  "version": "2.3.1"
+}

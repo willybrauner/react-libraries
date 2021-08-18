@@ -1,0 +1,12 @@
+import { %%pascalCaseModuleName%% } from "../src"
+import React from "react";
+
+const storyName = "%%dashCaseModuleName%%";
+
+export const App = () => <div>{storyName}</div>
+App.storyName = "basic example";
+
+export default {
+  title: `%%subFolder%%/${storyName}`,
+  component: App
+};

@@ -1,0 +1,6 @@
+/**
+ * %%pascalCaseModuleName%%
+ */
+export function %%pascalCaseModuleName%%() {
+
+}

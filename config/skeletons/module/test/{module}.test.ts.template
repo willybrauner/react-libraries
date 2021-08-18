@@ -1,0 +1,7 @@
+import { %%pascalCaseModuleName%% } from "../src";
+
+describe("%%pascalCaseModuleName%%", () => {
+  it("should be defined", () => {
+    expect(%%pascalCaseModuleName%%).toBeDefined();
+  });
+});
