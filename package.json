@@ -1,6 +1,6 @@
 {
-  "name": "libraries",
-  "description": "Mono-repos libraries for front-end applications.",
+  "name": "react-libraries",
+  "description": "React tools monorepos",
   "private": true,
   "scripts": {
     "clean": "lerna clean",

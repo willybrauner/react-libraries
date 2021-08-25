@@ -1,6 +1,6 @@
 # 📦 react-libraries
 
-Libraries of react component and hooks monorepos
+React tools monorepos.
 
 ## Summary
 
@@ -19,8 +19,6 @@ Libraries of react component and hooks monorepos
 
 ## How to use
 
-### Install specific module
-
 Each modules can be imported separately like this:
 
 ```shell script
@@ -37,7 +35,7 @@ For all those who wish to contribute, feel free to submit a pull request. You ca
 Clone the repos and move to repos folder:
 
 ```shell script
-$ git clone git@github.com:willybrauner/react-library.git react-library && cd react-library
+$ git clone git@github.com:willybrauner/react-libraries.git react-library && cd react-libraries
 ```
 
 Install all dependencies:
