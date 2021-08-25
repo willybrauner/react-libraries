@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import * as React from "react";
+import { useState } from "react";
 import { render } from "@testing-library/react";
 import { TPlay, Transition } from "../src";
 import { act } from "react-dom/test-utils";

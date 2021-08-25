@@ -22,11 +22,8 @@
     "type": "git",
     "url": "https://github.com/willybrauner/libraries.git"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^17.0.2"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.11"
   },
   "keywords": [
     "react",

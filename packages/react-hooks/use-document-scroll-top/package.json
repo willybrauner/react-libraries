@@ -21,11 +21,8 @@
     "compile": "microbundle",
     "test": "jest"
   },
-  "dependencies": {
+  "peerDependencies": {
     "react": "^17.0.2"
-  },
-  "devDependencies": {
-    "@types/react": "^17.0.11"
   },
   "keywords": [
     "react",
