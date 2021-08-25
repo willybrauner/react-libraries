@@ -1,5 +1,5 @@
 import React, { CSSProperties, useLayoutEffect, useRef, useState } from "react";
-import { lazyBackgroundImage } from "@wbe/lazy-image";
+import { LazyBackgroundImage } from "@wbe/lazy-image";
 import { DEFAULT_SRC_IMAGE_PLACEHOLDER } from "./common";
 import { TImageData, TLazy } from "./types";
 
@@ -42,7 +42,7 @@ export function BackgroundImage(props: IProps) {
       props.src;
 
     // create instance
-    backgroundImage.current = lazyBackgroundImage({
+    backgroundImage.current = new LazyBackgroundImage({
       $element: rootRef.current,
       srcset: url,
       observerOptions: props.observerOptions || {},

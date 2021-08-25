@@ -2,11 +2,12 @@ import React, {
   CSSProperties,
   useEffect,
   useLayoutEffect,
+  useMemo,
   useRef,
   useState,
 } from "react";
 import { useWindowSize } from "@wbe/use-window-size";
-import { lazyImage } from "@wbe/lazy-image";
+import { LazyImage } from "@wbe/lazy-image";
 import { DEFAULT_SRC_IMAGE_PLACEHOLDER } from "./common";
 import { TImageData, TLazy } from "./types";
 
@@ -44,8 +45,12 @@ interface IProps {
  */
 export function Image(props: IProps) {
   const rootRef = useRef<HTMLImageElement>(null);
-  const imageInstance = useRef(null);
+  const imageInstance = useRef<LazyImage>(null);
   const [lazyState, setLazyState] = useState<TLazy>("lazyload");
+  const srcsetFromData: string = useMemo(
+    () => props.data?.map((el) => `${el.url} ${el.width}w`).join(", "),
+    [props.data]
+  );
 
   /**
    * 1. Root Dimension
@@ -61,11 +66,9 @@ export function Image(props: IProps) {
    */
   useLayoutEffect(() => {
     // create instance
-    imageInstance.current = lazyImage({
+    imageInstance.current = new LazyImage({
       $element: rootRef.current,
-      srcset:
-        props.data?.map((el) => `${el.url} ${el.width}w`).join(", ") ||
-        props.srcset,
+      srcset: srcsetFromData || props.srcset,
       src: props.src,
       observerOptions: props.observerOptions || {},
       lazyCallback: (state: TLazy) => {
@@ -78,7 +81,7 @@ export function Image(props: IProps) {
     // stop
     return () => imageInstance.current.stop();
   }, [
-    props.data,
+    srcsetFromData,
     props.srcset,
     props.src,
     props.lazyCallback,
@@ -100,7 +103,7 @@ export function Image(props: IProps) {
       height={props.height}
       sizes={rootRefWidth && `${rootRefWidth}px`}
       src={props.srcPlaceholder || DEFAULT_SRC_IMAGE_PLACEHOLDER}
-      data-srcset={props.srcset}
+      data-srcset={srcsetFromData || props.srcset}
       data-src={props.src}
       aria-label={props.ariaLabel}
     />
