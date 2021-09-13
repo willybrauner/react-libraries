@@ -23,19 +23,20 @@ ReactDOM.render(
 function App() {
   return (
     <div className="App" style={{ width: "75%", margin: "0 auto" }}>
-      <Image
-        src={`https://picsum.photos/id/3/600/300`}
-        alt={"image"}
-        width={"100%"}
-      />
 
       <Placeholder backgroundColor={"pink"} ratio={1}>
         <Image
+          className={"Test"}
           data={FakeDataUtils.getResponsiveImageData(4 / 3)}
           alt={"image"}
         />
       </Placeholder>
       <br />
+      <Image
+        src={`https://picsum.photos/id/3/600/300`}
+        alt={"image"}
+        width={"100%"}
+      />
       <br />
       {new Array(5).fill(null).map((el, i) => (
         <Image
