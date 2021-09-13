@@ -110,7 +110,9 @@ export function Placeholder(props: IProps) {
       setChildPropsStyle(child?.props?.style);
       return React.cloneElement(child, {
         style: style.img,
-        className: `${componentName}_image`,
+        className: [child?.props?.className, `${componentName}_image`]
+          .filter((e) => e)
+          .join(" "),
       });
     });
   }, [style]);
