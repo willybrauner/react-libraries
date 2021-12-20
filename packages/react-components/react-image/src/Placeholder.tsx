@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { TImageData } from "./types";
+import { TImageData } from "./common";
 
 const componentName = "Placeholder";
 
