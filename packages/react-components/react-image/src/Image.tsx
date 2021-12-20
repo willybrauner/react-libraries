@@ -5,61 +5,61 @@ import React, {
   useMemo,
   useRef,
   useState,
-} from "react";
-import { useWindowSize } from "@wbe/use-window-size";
-import { LazyImage } from "@wbe/lazy-image";
-import { DEFAULT_SRC_IMAGE_PLACEHOLDER } from "./common";
-import { TImageData, TLazy } from "./types";
+} from "react"
+import { useWindowSize } from "@wbe/use-window-size"
+import { LazyImage } from "@wbe/lazy-image"
+import { DEFAULT_SRC_IMAGE_PLACEHOLDER } from "./common"
+import type { TImageData, TLazy } from "./common"
 
-const componentName = "Image";
+const componentName = "Image"
 
 interface IProps {
   // image to display before lazyload, default is lightest base64 transparent image
-  srcPlaceholder?: string;
+  srcPlaceholder?: string
   // src URL to lazyload
-  src?: string;
+  src?: string
   // srcset URL to lazyload
-  srcset?: string;
+  srcset?: string
   // list of images with dimension used to build srcset attr
-  data?: TImageData[];
+  data?: TImageData[]
 
   // callback when lazyload state change (lazyload | lazyloading | lazyloaded)
-  lazyCallback?: (lazyState: TLazy) => void;
+  lazyCallback?: (lazyState: TLazy) => void
   // intersection observer options
-  observerOptions?: IntersectionObserverInit;
+  observerOptions?: IntersectionObserverInit
 
   // style attrs
-  style?: CSSProperties;
-  width?: number | string;
-  height?: number | string;
+  style?: CSSProperties
+  width?: number | string
+  height?: number | string
 
   // alt attr and aria html
-  alt: string;
-  ariaLabel?: string;
+  alt: string
+  ariaLabel?: string
   // class name added on root element
-  className?: string;
+  className?: string
 }
 
 /**
  * React Image
  */
 export function Image(props: IProps) {
-  const rootRef = useRef<HTMLImageElement>(null);
-  const imageInstance = useRef<LazyImage>(null);
-  const [lazyState, setLazyState] = useState<TLazy>("lazyload");
+  const rootRef = useRef<HTMLImageElement>(null)
+  const imageInstance = useRef<LazyImage>(null)
+  const [lazyState, setLazyState] = useState<TLazy>("lazyload")
   const srcsetFromData: string = useMemo(
     () => props.data?.map((el) => `${el.url} ${el.width}w`).join(", "),
     [props.data]
-  );
+  )
 
   /**
    * 1. Root Dimension
    */
-  const [rootRefWidth, setRootRefWidth] = useState<number>(null);
-  const windowSize = useWindowSize();
+  const [rootRefWidth, setRootRefWidth] = useState<number>(null)
+  const windowSize = useWindowSize()
   useEffect(() => {
-    if (rootRef.current != null) setRootRefWidth(rootRef.current.offsetWidth);
-  }, [windowSize]);
+    if (rootRef.current != null) setRootRefWidth(rootRef.current.offsetWidth)
+  }, [windowSize])
 
   /**
    * Create lazyImage instance
@@ -72,21 +72,15 @@ export function Image(props: IProps) {
       src: props.src,
       observerOptions: props.observerOptions || {},
       lazyCallback: (state: TLazy) => {
-        props.lazyCallback?.(state);
-        setLazyState(state);
+        props.lazyCallback?.(state)
+        setLazyState(state)
       },
-    });
+    })
     // start
-    imageInstance.current.start();
+    imageInstance.current.start()
     // stop
-    return () => imageInstance.current.stop();
-  }, [
-    srcsetFromData,
-    props.srcset,
-    props.src,
-    props.lazyCallback,
-    props.observerOptions,
-  ]);
+    return () => imageInstance.current.stop()
+  }, [srcsetFromData, props.srcset, props.src, props.lazyCallback, props.observerOptions])
 
   /**
    * Render
@@ -94,9 +88,7 @@ export function Image(props: IProps) {
   return (
     <img
       ref={rootRef}
-      className={[componentName, props.className, lazyState]
-        .filter((e) => e)
-        .join(" ")}
+      className={[componentName, props.className, lazyState].filter((e) => e).join(" ")}
       alt={props.alt}
       style={props.style}
       width={props.width}
@@ -107,5 +99,5 @@ export function Image(props: IProps) {
       data-src={props.src}
       aria-label={props.ariaLabel}
     />
-  );
+  )
 }
