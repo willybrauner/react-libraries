@@ -8,7 +8,6 @@ import React, {
 // @ts-ignore
 import YouTubePlayer from "youtube-player";
 const componentName: string = "YoutubeVideo";
-const debug = require("debug")(`lib:${componentName}`);
 
 /**
  * YoutubeVideo Props
@@ -148,10 +147,10 @@ export function YoutubeVideo(props: IProps) {
    */
   const getIdFromUrl = useMemo((): string | null => {
     if (!props?.url) {
-      debug(`props.url doesn't exist. Return.`);
+      console.warn(`props.url doesn't exist. Return.`);
       return;
     }
-    debug(`Get Id from Url ${props?.url}`);
+    
     const regExp =
       /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
     const match = props?.url?.match(regExp);
@@ -193,9 +192,7 @@ export function YoutubeVideo(props: IProps) {
     };
 
     const el = rootRef?.current?.querySelector(`#${domId}`);
-    debug("el inside we create player", el);
     if (el) {
-      debug("el exist, create instance...");
       const instance = YouTubePlayer(domId, options);
       setPlayer(instance);
     }
@@ -248,12 +245,10 @@ export function YoutubeVideo(props: IProps) {
    * Events
    */
   const readyHandler = (event: any) => {
-    debug("On ready", event);
     props?.onReady?.(event);
   };
 
   const stateChangeHandler = (event: any) => {
-    debug(event);
     switch (event?.data) {
       case playerState.ENDED:
         props?.onEnded?.(event);

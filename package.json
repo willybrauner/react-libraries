@@ -26,7 +26,6 @@
     "babel-jest": "^27.4.6",
     "change-case": "^4.1.2",
     "colors": "^1.4.0",
-    "debug": "^4.3.3",
     "html-element-stringify": "^0.2.0",
     "husky": "^7.0.4",
     "inquirer": "^8.2.0",
@@ -51,5 +50,8 @@
     "*/**/**/**/*.{js,jsx,ts,tsx,css,json,md}": [
       "prettier --write"
     ]
+  },
+  "dependencies": {
+    "@wbe/debug": "^1.0.0"
   }
 }

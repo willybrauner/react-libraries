@@ -2,13 +2,11 @@ import React, {
   CSSProperties,
   useEffect,
   useMemo,
-  useRef,
   useState,
 } from "react";
 // @ts-ignore
 import Player from "@vimeo/player";
 const componentName: string = "VimeoVideo";
-const debug = require("debug")(`lib:${componentName}`);
 
 /**
  * VimeoVideo Props
@@ -125,7 +123,7 @@ export function VimeoVideo(props: IProps) {
    */
   const getIdFromUrl = useMemo((): string => {
     if (!props?.url) {
-      debug(`props.url doesn't exist. Return.`);
+      console.warn(`props.url doesn't exist. Return.`);
       return;
     }
     const regExp =
@@ -153,8 +151,6 @@ export function VimeoVideo(props: IProps) {
    * use Vimeo SDK and bind events
    */
   const initPlayer = (): void => {
-    debug(selectedId);
-
     if (!selectedId) {
       throw new Error(
         "No ID and no URL found in props; Component need one of these props."
@@ -181,12 +177,6 @@ export function VimeoVideo(props: IProps) {
 
     // Create player
     const player = new Player(domId, options);
-
-    debug("player instance", player);
-
-    if (!player) {
-      debug("No player instance found. Return.");
-    }
 
     player?.on("play", onPlayHandler);
     player?.on("pause", onPauseHandler);
@@ -229,27 +219,22 @@ export function VimeoVideo(props: IProps) {
    */
   useEffect(() => {
     if (!player) return;
-    debug("props.playing", props.play);
     props.play ? player.play() : player.pause();
   }, [props.play, player]);
 
   const onPlayHandler = (event: any) => {
-    debug("play");
     props?.onPlay?.(event);
   };
 
   const onPauseHandler = (event: any) => {
-    debug("pause");
     props?.onPause?.(event);
   };
 
   const onEndedHandler = (event: any) => {
-    debug("ended");
     props?.onEnded?.(event);
   };
 
   const onLoadedHandler = (event: any) => {
-    debug("loaded, onReady");
     props?.onReady?.(event);
   };
 

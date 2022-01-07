@@ -6,7 +6,7 @@ const { Files } = require("@zouloux/files");
 const changeCase = require("change-case");
 const { QuickTemplate } = require("../helpers/helper-template");
 require("colors");
-const debug = require("debug")(`config:scaffold`);
+const debug = require("@wbe/debug")(`config:scaffold`);
 
 // ----------------------------------------------------------------------------- LOGS
 
