@@ -27,6 +27,9 @@ interface IProps {
   className?: string
   // aria label on component
   ariaLabel?: string
+
+  // select next image in images array
+  bigQuality?: boolean
 }
 
 export function BackgroundImage(props: IProps) {
@@ -45,6 +48,7 @@ export function BackgroundImage(props: IProps) {
     backgroundImage.current = new LazyBackgroundImage({
       $element: rootRef.current,
       srcset: url,
+      bigQuality: props.bigQuality || false,
       observerOptions: props.observerOptions || {},
       lazyCallback: (state: TLazy) => {
         props.lazyCallback?.(state)
