@@ -1,6 +1,6 @@
 {
   "name": "@wbe/react-video-player",
-  "version": "2.4.3-alpha.0",
+  "version": "2.5.0",
   "description": "React video player for native vimeo and youtube video",
   "author": "Willy Brauner",
   "license": "MIT",
