@@ -51,5 +51,6 @@
     "*/**/**/**/*.{js,jsx,ts,tsx,css,json,md}": [
       "prettier --write"
     ]
-  }
+  },
+  "version": "2.6.0"
 }
