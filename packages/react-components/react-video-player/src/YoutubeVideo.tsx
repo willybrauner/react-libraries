@@ -1,14 +1,7 @@
-import React, {
-  CSSProperties,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 // @ts-ignore
-import YouTubePlayer from "youtube-player";
-const componentName: string = "YoutubeVideo";
-const debug = require("debug")(`lib:${componentName}`);
+import YouTubePlayer from "youtube-player"
+const componentName: string = "YoutubeVideo"
 
 /**
  * YoutubeVideo Props
@@ -17,100 +10,100 @@ interface IProps {
   /**
    * Inquire video ID
    */
-  id?: string;
+  id?: string
 
   /**
    * Inquire video URL
    */
-  url?: string;
+  url?: string
 
   /**
    * Play, pause, resume video
    */
-  play: boolean;
+  play: boolean
 
   /**
    * Add root component style
    */
-  style?: CSSProperties;
+  style?: CSSProperties
 
   /**
    * Show controls on video
    * Must be hosted by a Plus account or higher
    * @default true
    */
-  controls?: boolean;
+  controls?: boolean
 
   /**
    * @default false
    */
-  autoPlay?: boolean;
+  autoPlay?: boolean
 
   /**
    * @default false
    */
-  loop?: boolean;
+  loop?: boolean
 
   /**
    * @type NATIVE | VIMEO
    */
-  muted?: boolean;
+  muted?: boolean
 
   /**
    * Whether the video plays inline on supported mobile devices.
    * To force the device to play the video in fullscreen mode instead, set this value to false.
    * @default true
    */
-  playsInline?: boolean;
+  playsInline?: boolean
 
   /**
    * Remove decorative elements on video
    * @default false
    */
-  modestBranding?: boolean;
+  modestBranding?: boolean
 
   /**
    * Disable keyboard video shortcuts
    * @default false
    */
-  disableKb?: boolean;
+  disableKb?: boolean
 
   /**
    * Active fullScreen button
    * @default true
    */
-  fs?: boolean;
+  fs?: boolean
 
   /**
    * Execute function when video is ready
    */
-  onReady?: (event?: any) => void;
+  onReady?: (event?: any) => void
 
   /**
    * Execute function on play state callback
    */
-  onPlay?: (event?: any) => void;
+  onPlay?: (event?: any) => void
 
   /**
    * Execute function on pause state callback
    */
-  onPause?: (event?: any) => void;
+  onPause?: (event?: any) => void
 
   /**
    * Execute function on ended state callback
    * Is not fired if loop is true
    */
-  onEnded?: (event?: any) => void;
+  onEnded?: (event?: any) => void
 
   /**
    * Execute function when a new video is buffering
    */
-  onBuffering?: (event?: any) => void;
+  onBuffering?: (event?: any) => void
 
   /**
    * Add className to component root
    */
-  className?: string;
+  className?: string
 }
 
 YoutubeVideo.defaultProps = {
@@ -120,7 +113,7 @@ YoutubeVideo.defaultProps = {
   modestBranding: false,
   disableKb: false,
   fs: true,
-};
+}
 
 const playerState = {
   UNSTARTED: -1,
@@ -129,7 +122,7 @@ const playerState = {
   PAUSED: 2,
   BUFFERING: 3,
   CUED: 5,
-};
+}
 
 /**
  * YoutubeVideo
@@ -138,8 +131,8 @@ const playerState = {
  * @param props
  */
 export function YoutubeVideo(props: IProps) {
-  const rootRef = useRef<HTMLDivElement>(null);
-  const [player, setPlayer] = useState(null);
+  const rootRef = useRef<HTMLDivElement>(null)
+  const [player, setPlayer] = useState(null)
 
   // --------------------------------------------------------------------------- CONFIG
 
@@ -148,28 +141,26 @@ export function YoutubeVideo(props: IProps) {
    */
   const getIdFromUrl = useMemo((): string | null => {
     if (!props?.url) {
-      debug(`props.url doesn't exist. Return.`);
-      return;
+      console.warn(`props.url doesn't exist. Return.`)
+      return
     }
-    debug(`Get Id from Url ${props?.url}`);
+
     const regExp =
-      /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/;
-    const match = props?.url?.match(regExp);
-    return match?.[1] ?? null;
-  }, [props.url]);
+      /^.*(?:(?:youtu\.be\/|v\/|vi\/|u\/\w\/|embed\/)|(?:(?:watch)?\?v(?:i)?=|\&v(?:i)?=))([^#\&\?]*).*/
+    const match = props?.url?.match(regExp)
+    return match?.[1] ?? null
+  }, [props.url])
 
   /**
    * Select ID from id props or url prod, depends on who inquired
    */
-  const [selectedId, setSelectedId] = useState<string>(
-    props?.id || getIdFromUrl
-  );
+  const [selectedId, setSelectedId] = useState<string>(props?.id || getIdFromUrl)
   useEffect(() => {
-    setSelectedId(props?.id || getIdFromUrl);
-  }, [props.id, getIdFromUrl]);
+    setSelectedId(props?.id || getIdFromUrl)
+  }, [props.id, getIdFromUrl])
 
   // prepare DOM id name
-  const domId = `${componentName}-${selectedId}`;
+  const domId = `${componentName}-${selectedId}`
 
   // --------------------------------------------------------------------------- PLAYER
 
@@ -190,16 +181,15 @@ export function YoutubeVideo(props: IProps) {
         disablebk: props.disableKb ? 1 : 0,
         fs: props.fs ? 1 : 0,
       },
-    };
-
-    const el = rootRef?.current?.querySelector(`#${domId}`);
-    debug("el inside we create player", el);
-    if (el) {
-      debug("el exist, create instance...");
-      const instance = YouTubePlayer(domId, options);
-      setPlayer(instance);
     }
-  };
+
+    const el = rootRef?.current?.querySelector(`#${domId}`)
+
+    if (el) {
+      const instance = YouTubePlayer(domId, options)
+      setPlayer(instance)
+    }
+  }
 
   /**
    * Update player
@@ -207,89 +197,87 @@ export function YoutubeVideo(props: IProps) {
   const updatePlayer = () => {
     // If autoplay, load new video
     if (props?.autoPlay) {
-      player?.loadVideoById(selectedId);
+      player?.loadVideoById(selectedId)
       // reset player
     } else {
       player?.getIframe().then((iframe: any): void => {
-        resetPlayer();
-      });
+        resetPlayer()
+      })
     }
-  };
+  }
 
   /**
    * Reset an recreate player
    */
   const resetPlayer = () => {
-    player?.destroy().then(() => createPlayer());
-  };
+    player?.destroy().then(() => createPlayer())
+  }
 
   /**
    * Start
    */
   useEffect(() => {
-    createPlayer();
-  }, []);
+    createPlayer()
+  }, [])
 
   /**
    * Update
    */
-  const initialMount = useRef(true);
+  const initialMount = useRef(true)
   useEffect(() => {
     if (initialMount.current) {
-      initialMount.current = false;
-      return;
+      initialMount.current = false
+      return
     } else {
       // only on update
-      updatePlayer();
+      updatePlayer()
     }
-  }, [selectedId]);
+  }, [selectedId])
 
   /**
    * Events
    */
   const readyHandler = (event: any) => {
-    debug("On ready", event);
-    props?.onReady?.(event);
-  };
+    props?.onReady?.(event)
+  }
 
   const stateChangeHandler = (event: any) => {
-    debug(event);
     switch (event?.data) {
       case playerState.ENDED:
-        props?.onEnded?.(event);
-        break;
+        props?.onEnded?.(event)
+        break
       case playerState.PLAYING:
-        props?.onPlay?.(event);
-        break;
+        props?.onPlay?.(event)
+        break
       case playerState.PAUSED:
-        props?.onPause?.(event);
-        break;
+        props?.onPause?.(event)
+        break
       case playerState.BUFFERING:
-        props?.onBuffering?.(event);
-        break;
+        props?.onBuffering?.(event)
+        break
     }
-  };
+  }
 
   useEffect(() => {
-    const readyListener = player?.on("ready", readyHandler);
-    const stateChangeListener = player?.on("stateChange", stateChangeHandler);
+    const readyListener = player?.on("ready", readyHandler)
+    const stateChangeListener = player?.on("stateChange", stateChangeHandler)
     return () => {
-      player?.off(stateChangeListener);
-      player?.off(readyListener);
-    };
-  }, [player]);
+      player?.off(stateChangeListener)
+      player?.off(readyListener)
+    }
+  }, [player])
 
   /**
    * PlayPause
    */
   useEffect(() => {
-    props.play ? player?.playVideo() : player?.pauseVideo();
-  }, [props.play]);
+    props.play ? player?.playVideo() : player?.pauseVideo()
+  }, [props.play])
 
   useEffect(() => {
     // muted props
-    props?.muted ? player?.mute() : player?.unMute();
-  }, [player, props.muted]);
+    props?.muted ? player?.mute() : player?.unMute()
+  }, [player, props.muted])
 
   // --------------------------------------------------------------------------- RENDER
 
@@ -301,5 +289,5 @@ export function YoutubeVideo(props: IProps) {
     >
       <div id={domId} />
     </div>
-  );
+  )
 }

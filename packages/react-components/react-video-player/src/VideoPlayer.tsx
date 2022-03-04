@@ -125,7 +125,6 @@ VideoPlayer.defaultProps = {
 };
 
 const componentName: string = "VideoPlayer";
-const debug = require("debug")(`lib:${componentName}`);
 
 /**
  * @name VideoPlayer
