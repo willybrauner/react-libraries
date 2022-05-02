@@ -1,6 +1,5 @@
 import React, { CSSProperties, useEffect, useRef } from "react";
 const componentName: string = "NativeVideo";
-const debug = require("debug")(`lib:${componentName}`);
 
 /**
  * NativeVideo Props
@@ -127,22 +126,18 @@ export function NativeVideo(props: IProps) {
   }, []);
 
   const onPlayHandler = (event: any) => {
-    debug("play");
     props?.onPlay?.(event);
   };
 
   const onPauseHandler = (event: any) => {
-    debug("pause");
     props?.onPause?.(event);
   };
 
   const onEndedHandler = (event: any) => {
-    debug("ended");
     props?.onEnded?.(event);
   };
 
   const onCanPlayHandler = (event: any) => {
-    debug("onCanPlay");
     props?.onCanPlay?.(event);
   };
 

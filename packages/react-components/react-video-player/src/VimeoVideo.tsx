@@ -1,14 +1,7 @@
-import React, {
-  CSSProperties,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { CSSProperties, useEffect, useMemo, useRef, useState } from "react"
 // @ts-ignore
-import Player from "@vimeo/player";
-const componentName: string = "VimeoVideo";
-const debug = require("debug")(`lib:${componentName}`);
+import Player from "@vimeo/player"
+const componentName: string = "VimeoVideo"
 
 /**
  * VimeoVideo Props
@@ -17,86 +10,86 @@ interface IProps {
   /**
    * Inquire video ID
    */
-  id?: string;
+  id?: string
 
   /**
    * Inquire video URL
    */
-  url?: string;
+  url?: string
 
   /**
    * Play, pause, resume video
    */
-  play: boolean;
+  play: boolean
 
   /**
    * Add root component style
    */
-  style?: CSSProperties;
+  style?: CSSProperties
 
   /**
    * Show controls on video
    * Must be hosted by a Plus account or higher
    * @default true
    */
-  controls?: boolean;
+  controls?: boolean
 
   /**
    * Autoplay works only if muted is set to true
    * @default false
    */
-  autoPlay?: boolean;
+  autoPlay?: boolean
 
   /**
    * @default false
    */
-  loop?: boolean;
+  loop?: boolean
 
   /**
    * @default false
    */
-  muted?: boolean;
+  muted?: boolean
 
   /**
    * Whether the video plays inline on supported mobile devices.
    * To force the device to play the video in fullscreen mode instead, set this value to false.
    * @default true
    */
-  playsInline?: boolean;
+  playsInline?: boolean
 
   /**
    * Pause playing video if another start in the same window
    * @doc https://developer.vimeo.com/player/sdk/reference#get-the-autopause-state-of-a-player-or-browser
    * @default false
    */
-  autoPause?: boolean;
+  autoPause?: boolean
 
   /**
    * Execute function on play state callback
    */
-  onPlay?: (event?: any) => void;
+  onPlay?: (event?: any) => void
 
   /**
    * Execute function on pause state callback
    * @default true
    */
-  onPause?: (event?: any) => void;
+  onPause?: (event?: any) => void
 
   /**
    * Execute function on ended state callback
    * Is not fired if loop is true
    */
-  onEnded?: (event?: any) => void;
+  onEnded?: (event?: any) => void
 
   /**
    * Execute function when a new video is ready
    */
-  onReady?: (event?: any) => void;
+  onReady?: (event?: any) => void
 
   /**
    * Add className to component root
    */
-  className?: string;
+  className?: string
 }
 
 VimeoVideo.defaultProps = {
@@ -106,7 +99,7 @@ VimeoVideo.defaultProps = {
   muted: false,
   playsInline: true,
   autoPause: true,
-};
+}
 
 /**
  * Vimeo video player using SDK
@@ -114,7 +107,7 @@ VimeoVideo.defaultProps = {
  * @param props
  */
 export function VimeoVideo(props: IProps) {
-  const [player, setPlayer] = useState<Player>(null);
+  const [player, setPlayer] = useState<Player>(null)
 
   // --------------------------------------------------------------------------- CONFIG
 
@@ -125,27 +118,24 @@ export function VimeoVideo(props: IProps) {
    */
   const getIdFromUrl = useMemo((): string => {
     if (!props?.url) {
-      debug(`props.url doesn't exist. Return.`);
-      return;
+      return
     }
     const regExp =
-      /(http|https)?:\/\/(www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|)(\d+)(?:|\/\?)/;
-    const match = props?.url?.match(regExp);
-    return match?.[4] ?? null;
-  }, [props?.url]);
+      /(http|https)?:\/\/(www\.)?vimeo.com\/(?:channels\/(?:\w+\/)?|groups\/([^\/]*)\/videos\/|)(\d+)(?:|\/\?)/
+    const match = props?.url?.match(regExp)
+    return match?.[4] ?? null
+  }, [props?.url])
 
   /**
    * Select ID from id props or url prod, depends on who inquired
    */
-  const [selectedId, setSelectedId] = useState<string>(
-    props?.id || getIdFromUrl
-  );
+  const [selectedId, setSelectedId] = useState<string>(props?.id || getIdFromUrl)
   useEffect(() => {
-    setSelectedId(props?.id || getIdFromUrl);
-  }, [props?.id, getIdFromUrl]);
+    setSelectedId(props?.id || getIdFromUrl)
+  }, [props?.id, getIdFromUrl])
 
   // prepare DOM id name
-  const domId = `${componentName}-${selectedId}`;
+  const domId = `${componentName}-${selectedId}`
 
   // --------------------------------------------------------------------------- PLAYER
 
@@ -153,12 +143,10 @@ export function VimeoVideo(props: IProps) {
    * use Vimeo SDK and bind events
    */
   const initPlayer = (): void => {
-    debug(selectedId);
-
     if (!selectedId) {
       throw new Error(
         "No ID and no URL found in props; Component need one of these props."
-      );
+      )
     }
 
     // select options
@@ -177,35 +165,32 @@ export function VimeoVideo(props: IProps) {
       height: props?.style?.height,
       maxWidth: props?.style?.maxWidth,
       maxHeight: props?.style?.maxHeight,
-    };
-
-    // Create player
-    const player = new Player(domId, options);
-
-    debug("player instance", player);
-
-    if (!player) {
-      debug("No player instance found. Return.");
     }
 
-    player?.on("play", onPlayHandler);
-    player?.on("pause", onPauseHandler);
-    player?.on("ended", onEndedHandler);
-    player?.on("loaded", onLoadedHandler);
-    setPlayer(player);
-  };
+    // Create player
+    const player = new Player(domId, options)
+
+    if (!player) {
+    }
+
+    player?.on("play", onPlayHandler)
+    player?.on("pause", onPauseHandler)
+    player?.on("ended", onEndedHandler)
+    player?.on("loaded", onLoadedHandler)
+    setPlayer(player)
+  }
 
   /**
    * Unbind events
    */
   const destroyPlayer = () => {
-    player?.off("play", onPlayHandler);
-    player?.off("pause", onPauseHandler);
-    player?.off("ended", onEndedHandler);
-    player?.off("loaded", onLoadedHandler);
-    player?.destroy();
-    setPlayer(null);
-  };
+    player?.off("play", onPlayHandler)
+    player?.off("pause", onPauseHandler)
+    player?.off("ended", onEndedHandler)
+    player?.off("loaded", onLoadedHandler)
+    player?.destroy()
+    setPlayer(null)
+  }
 
   /**
    * Init
@@ -213,45 +198,41 @@ export function VimeoVideo(props: IProps) {
   useEffect(() => {
     // if no id, unload current player if exist and exit.
     if (!selectedId) {
-      player?.unload();
-      return;
+      player?.unload()
+      return
     }
 
     // init player if this is first load or inject new ID
-    !player ? initPlayer() : player.loadVideo(selectedId);
+    !player ? initPlayer() : player.loadVideo(selectedId)
 
     // destroy on unmount
-    if (player) return destroyPlayer;
-  }, [selectedId, player]);
+    if (player) return destroyPlayer
+  }, [selectedId, player])
 
   /**
    * Listen PlayState
    */
   useEffect(() => {
-    if (!player) return;
-    debug("props.playing", props.play);
-    props.play ? player.play() : player.pause();
-  }, [props.play, player]);
+    if (!player) return
+
+    props.play ? player.play() : player.pause()
+  }, [props.play, player])
 
   const onPlayHandler = (event: any) => {
-    debug("play");
-    props?.onPlay?.(event);
-  };
+    props?.onPlay?.(event)
+  }
 
   const onPauseHandler = (event: any) => {
-    debug("pause");
-    props?.onPause?.(event);
-  };
+    props?.onPause?.(event)
+  }
 
   const onEndedHandler = (event: any) => {
-    debug("ended");
-    props?.onEnded?.(event);
-  };
+    props?.onEnded?.(event)
+  }
 
   const onLoadedHandler = (event: any) => {
-    debug("loaded, onReady");
-    props?.onReady?.(event);
-  };
+    props?.onReady?.(event)
+  }
 
   // --------------------------------------------------------------------------- RENDER
 
@@ -261,5 +242,5 @@ export function VimeoVideo(props: IProps) {
       id={domId}
       style={props.style}
     />
-  );
+  )
 }
