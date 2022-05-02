@@ -3,12 +3,12 @@
  * https://jestjs.io/docs/en/configuration.html
  */
 module.exports = {
-  preset: "ts-jest",
+ // preset: "ts-jest",
 
-  transform: {
-    "^.+\\.(ts|tsx)?$": "ts-jest",
-    "^.+\\.(js|jsx)$": "babel-jest",
-  },
+  // transform: {
+  //   "^.+\\.(ts|tsx)?$": "ts-jest",
+  //   "^.+\\.(js|jsx)$": "babel-jest",
+  // },
 
   testEnvironment: "jsdom",
 
