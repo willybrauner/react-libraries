@@ -6,7 +6,6 @@ React tools monorepos.
 
 **react-components**
 
-- [react-image](packages/react-components/react-image)
 - [react-video-player](packages/react-components/react-video-player)
 - [react-transition](packages/react-components/react-transition)
 
