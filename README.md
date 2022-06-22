@@ -21,11 +21,11 @@ React tools monorepos.
 Each modules can be imported separately like this:
 
 ```shell script
-$ npm install -s @wbe/react-image
+$ npm install -s @wbe/react-transition
 ```
 
 ```tsx
-import { Image } from "@wbe/react-image";
+import { Transition } from "@wbe/react-transition";
 ```
 
 ## Contribute
