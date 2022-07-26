@@ -21,17 +21,17 @@
     "compile": "microbundle --jsx React.createElement"
   },
   "dependencies": {
-    "@vimeo/player": "^2.16.4",
+    "@vimeo/player": "^2.17.1",
     "youtube-player": "^5.5.2"
   },
   "devDependencies": {
-    "@types/react": "^18.0.8",
-    "@types/react-dom": "^18.0.3",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
     "@wbe/fake-data-utils": "^2.3.0",
     "microbundle": "^0.15.0",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "typescript": "^4.6.4"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^4.7.4"
   },
   "keywords": [
     "react"
