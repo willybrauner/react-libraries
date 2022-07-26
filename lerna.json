@@ -3,5 +3,5 @@
     "packages/react-components/*",
     "packages/react-hooks/*"
   ],
-  "version": "2.7.0"
+  "version": "2.7.1"
 }
